@@ -22,6 +22,7 @@ data(hES)
 
 # load the PhosphoSitePlus annotations (Hornbeck et al. Nucleic Acids Res. 40:D261-70, 2012)
 data(PhosphoSite)
+
 # run CLUE with a repeat of 5 times and a range from 2 to 20
 set.seed(2)
 clueObj <- runClue(Tc=hES, annotation=PhosphoSite.human, rep=5, kRange=20)
