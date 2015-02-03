@@ -9,7 +9,8 @@ CLUE is designed for analyzing time-course phosphoproteomics dataset using kinas
 
 #### Download and install
 The latest release can be downloaded from [here](https://github.com/PengyiYang/ClueR/releases)
-You can install the latest development version from github with
+
+You can install the latest development version from github with:
 ```r
 devtools::install_github("PengyiYang/ClueR")
 ```
