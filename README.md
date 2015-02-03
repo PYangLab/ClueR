@@ -40,7 +40,7 @@ best <- clustOptimal(clueObj, rep=10, mfrow=c(3, 4))
 # list enriched clusters
 best$enrichList
 
-# obtain the optimal clustering object (not run)
-# best$clustObj
+# obtain the optimal clustering object
+best$clustObj
 ```
     
