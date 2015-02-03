@@ -42,6 +42,13 @@ names(kinaseAnno) <- paste("KS", 1:100, sep="_")
 set.seed(2)
 clueObj <- runClue(Tc=simuData, annotation=kinaseAnno, rep=5, kRange=20)
 
+# visualize the evaluation outcome
+Ms <- apply(clueObj$evlMat, 2, mean, na.rm=TRUE)
+Ss <- apply(clueObj$evlMat, 2, sd, na.rm=TRUE)
+library(Hmisc)
+errbar(1:length(Ms), Ms, Ms+Ss, Ms-Ss, cex=1.2, type="b", xaxt="n", xlab="k", ylab="E score")
+axis(1, at=1:19, labels=paste("k=", 2:20, sep=""))
+
 # generate optimal clustering results using the optimal k determined by CLUE
 best <- clustOptimal(clueObj, rep=10, mfrow=c(2, 3))
 
