@@ -19,10 +19,14 @@ This demonstrate how CLUE can be applied to discover the optimal number of clust
 # load the package into R session
 library(ClueR) 
 
-# simulate a time-series data with six distinctive profile groups and each group with a size of 500 phosphorylation sites.
+# simulate a time-series data with six distinctive profile groups and each group with
+# a size of 500 phosphorylation sites.
 simuData <- temporalSimu(seed=1, groupSize=500, sdd=1, numGroups=6)
 
-# create an artificial annotation database. Generate 100 kinase-substrate groups each comprising 50 substrates assigned to a kinase. Among them, create 5 groups each contains phosphorylation sites defined to have the same temporal profile.
+# create an artificial annotation database. Generate 100 kinase-substrate groups each
+# comprising 50 substrates assigned to a kinase.
+# among them, create 5 groups each contains phosphorylation sites defined to have the
+# same temporal profile.
 kinaseAnno <- list()
 groupSize <- 500
 for (i in 1:5) {
