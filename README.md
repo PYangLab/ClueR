@@ -10,8 +10,8 @@ CLUE is designed for analyzing time-course phosphoproteomics dataset using kinas
 Download the latest release [here](https://github.com/PengyiYang/ClueR/releases)
 
 #### Examples
-# (1)
-This demonstrate how CLUE can be applied to discover the optimal number of clusters from a simulated data.
+###### (1)
+This example demonstrate how CLUE can be applied to discover the optimal number of clusters from a simulated data.
 
 ``` r
 ## install the latest release of ClueR package
@@ -39,6 +39,18 @@ for (i in 6:100) {
 }
 names(kinaseAnno) <- paste("KS", 1:100, sep="_")
 
+# run CLUE with a repeat of 5 times and a range from 2 to 20
+set.seed(2)
+clueObj <- runClue(Tc=simuData, annotation=kinaseAnno, rep=5, kRange=20)
+
+# generate optimal clustering results using the optimal k determined by CLUE
+best <- clustOptimal(clueObj, rep=10, mfrow=c(2, 3))
+
+# list enriched clusters
+best$enrichList
+
+# obtain the optimal clustering object
+best$clustObj
 ```
 
 
