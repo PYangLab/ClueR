@@ -9,3 +9,5 @@ CLUE is designed for analyzing time-course phosphoproteomics dataset using kinas
 
 Download the latest releases [here](https://github.com/PengyiYang/ClueR/releases)
 
+Examples
+-------------------
