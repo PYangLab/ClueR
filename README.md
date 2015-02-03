@@ -94,3 +94,6 @@ best$enrichList
 best$clustObj
 ```
     
+#### Reference
+Pengyi Yang, Xiaofeng Zheng, Vivek Jayaswal, Guang Hu, Yee Hwa Yang, Raja Jothi, Detecting key signaling events from time-series phosphoproteomics data, in submission.
+
