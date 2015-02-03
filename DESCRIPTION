@@ -1,0 +1,11 @@
+Package: ClueR
+Type: Package
+Title: CLUster Evaluation (CLUE)
+Version: 1.0
+Date: 2015-2-1
+Author: Pengyi Yang & Raja Jothi
+Maintainer: Pengyi Yang <yangpy7@gmail.com>
+Description: CLUE is an R package for identifying optimal number of clusters in a given time-course dataset clustered by cmeans or kmeans algorithms.
+License: GPL-3
+Depends: R (>= 2.10.0), e1071
+Suggests: Hmisc
