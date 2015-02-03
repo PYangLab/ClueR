@@ -1,5 +1,5 @@
 # ClueR
-Cluster Evaluation R package (ClueR) for detecting key signaling events from time-series phosphoproteomics data
+### Cluster Evaluation R package (ClueR) for detecting key signaling events from time-series phosphoproteomics data
 ========
 
 CLUster Evaluation (or "CLUE") is an R package for identifying optimal number of clusters in a given time-course dataset clustered by cmeans or kmeans algorithms. It relies on a reference annotation set to test for enrichment in
