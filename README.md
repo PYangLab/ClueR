@@ -7,7 +7,13 @@ combined probability test.
 
 CLUE is designed for analyzing time-course phosphoproteomics dataset using kinase-substrate annotation as reference. However, it can be applied to time-course microarray dataset as well by replacing the kinase-substrate annotation with gene sets annotation.
 
-Download the latest release [here](https://github.com/PengyiYang/ClueR/releases)
+#### Download and install
+The latest release can be downloaded from [here](https://github.com/PengyiYang/ClueR/releases)
+You can install the latest development version from github with
+```r
+devtools::install_github("PengyiYang/ClueR")
+```
+Make sure that you have Rtools install in your system for building the package from the source.
 
 #### Examples
 (1) This example demonstrate how CLUE can be applied to discover the optimal number of clusters from a simulated data.
