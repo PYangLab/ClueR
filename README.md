@@ -10,8 +10,7 @@ CLUE is designed for analyzing time-course phosphoproteomics dataset using kinas
 Download the latest release [here](https://github.com/PengyiYang/ClueR/releases)
 
 #### Examples
-###### (1)
-This example demonstrate how CLUE can be applied to discover the optimal number of clusters from a simulated data.
+(1) This example demonstrate how CLUE can be applied to discover the optimal number of clusters from a simulated data.
 
 ``` r
 ## install the latest release of ClueR package
@@ -53,6 +52,7 @@ best$enrichList
 best$clustObj
 ```
 
+(2) This example shows the application of CLUE on a hES phosphoproteomics data set (Rigbolt et al. Sci Signal. 4(164):rs3, 2011) and uses kinase-substrate annotation compiled from [PhosphoSitePlus](http://www.phosphosite.org).
 
 ``` r
 ## install the latest release of ClueR package
@@ -60,7 +60,7 @@ best$clustObj
 # load the package into R session
 library(ClueR) 
 
-# load the human ES phosphoprotoemics data (Rigbolt et al. Sci Signal. 4(164):rs3, 2011)
+# load the human ES phosphoprotoemics data 
 data(hES) 
 
 # load the PhosphoSitePlus annotations (Hornbeck et al. Nucleic Acids Res. 40:D261-70, 2012)
