@@ -8,8 +8,9 @@ combined probability test.
 CLUE is designed for analyzing time-course phosphoproteomics dataset using kinase-substrate annotation as reference. However, it can be applied to time-course microarray dataset as well by replacing the kinase-substrate annotation with gene sets annotation.
 
 #### Download and install
-The release version can be downloaded from CRAN [link](http://cran.r-project.org/web/packages/ClueR/)
-Whereas the latest release of development version can be downloaded from [here](https://github.com/PengyiYang/ClueR/releases)
+The release version can be downloaded from CRAN [link](http://cran.r-project.org/web/packages/ClueR/);
+
+whereas the latest release of development version can be downloaded from [here](https://github.com/PengyiYang/ClueR/releases)
 
 1. Install the release version from CRAN with `install.packages("ClueR")`
 
