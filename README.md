@@ -7,6 +7,9 @@ combined probability test.
 
 CLUE is designed for analyzing time-course phosphoproteomics dataset using kinase-substrate annotation as reference. However, it can be applied to time-course microarray dataset as well by replacing the kinase-substrate annotation with gene sets annotation.
 
+#### Reference
+Pengyi Yang, Xiaofeng Zheng, Vivek Jayaswal, Guang Hu, Yee Hwa Yang, Raja Jothi, Detecting key signaling events from time-series phosphoproteomics data, PLoS Comput Biol 11(8): e1004403. doi:10.1371/journal.pcbi.1004403.
+
 #### Download and install
 The release version can be downloaded from CRAN [link](http://cran.r-project.org/web/packages/ClueR/);
 
@@ -105,6 +108,4 @@ best$enrichList
 best$clustObj
 ```
 
-#### Reference
-Pengyi Yang, Xiaofeng Zheng, Vivek Jayaswal, Guang Hu, Yee Hwa Yang, Raja Jothi, Detecting key signaling events from time-series phosphoproteomics data, in submission.
 
