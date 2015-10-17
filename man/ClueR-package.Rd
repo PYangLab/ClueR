@@ -18,8 +18,8 @@ Type '?runClue' for more details and examples on how to use CLUE.
 \tabular{ll}{
 Package: \tab CLUE\cr
 Type: \tab Package\cr
-Version: \tab 1.0\cr
-Date: \tab 2015-2-1\cr
+Version: \tab 1.1\cr
+Date: \tab 2015-10-17\cr
 License: \tab GPL-3\cr
 }
 
