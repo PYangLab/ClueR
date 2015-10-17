@@ -9,6 +9,7 @@
 #' @param effectiveSize the size of annotation groups to be considered for calculating enrichment. Groups that are too small
 #' or too large will be removed from calculating overall enrichment of the clustering.
 #' @param pvalueCutoff a pvalue cutoff for determining which kinase-substrate groups to be included in calculating overall enrichment of the clustering.
+#' @param alpha a penalty factor for penalizing large number of clusters.
 #' @return a clue output that contains the input parameters used for evaluation and the evaluation results. Use ls(x) to see details of output. 'x' be the output here.
 #' @export
 #' @examples
@@ -23,8 +24,8 @@
 #' hESs <- hES[rownames(hES) %in% unlist(PhosphoSite.human[ids]),]
 #' 
 #' # run CLUE with a repeat of 3 times and a range from 2 to 13
-#' set.seed(1)
-#' clueObj <- runClue(Tc=hESs, annotation=PhosphoSite.human, rep=3, kRange=13)
+#' set.seed(2)
+#' clueObj <- runClue(Tc=hESs, annotation=PhosphoSite.human, rep=2, kRange=13)
 #' 
 #' # visualize the evaluation outcome
 #' Ms <- apply(clueObj$evlMat, 2, mean, na.rm=TRUE)
@@ -34,7 +35,7 @@
 #' axis(1, at=1:12, labels=paste("k=", 2:13, sep=""))
 #' 
 #' # generate the optimal clustering results
-#' best <- clustOptimal(clueObj, rep=5, mfrow=c(3, 4))
+#' best <- clustOptimal(clueObj, rep=10, mfrow=c(3, 4))
 #' 
 #' # list enriched clusters
 #' best$enrichList
@@ -42,7 +43,7 @@
 #' # obtain the optimal clustering object (not run)
 #' # best$clustObj
 #' 
-runClue <- function(Tc, annotation, rep=10, kRange, clustAlg="cmeans", effectiveSize=c(5, 100), pvalueCutoff=0.05) {
+runClue <- function(Tc, annotation, rep=10, kRange, clustAlg="cmeans", effectiveSize=c(5, 100), pvalueCutoff=0.05, alpha=0.5) {
   
   # standardize the matrix by row
   means <- apply(Tc, 1, mean)
@@ -73,7 +74,9 @@ runClue <- function(Tc, annotation, rep=10, kRange, clustAlg="cmeans", effective
       # compute clustering enrichment
       evaluate <- clustEnrichment(clustered, annotation.filtered, effectiveSize, pvalueCutoff)
       fisher.pvalue <- evaluate$fisher.pvalue
-      enrichment <- c(enrichment, fisher.pvalue)
+      escore <- -log10(fisher.pvalue) - alpha * nrow(clustered$centers)
+      
+      enrichment <- c(enrichment, escore)
     }
     repeat.list[[rp]] <- enrichment
   }
@@ -81,10 +84,9 @@ runClue <- function(Tc, annotation, rep=10, kRange, clustAlg="cmeans", effective
   # combine the multiple testing results
   x <- do.call(rbind, repeat.list)
   # transform the pvalue 
-  x.transform <- -log10(x)
+  #x.transform <- -log10(x)
   # scale the values into [0, 1]
-  d <- max(x.transform) - min(x.transform)
-  x.normalize <- (x.transform - min(x.transform)) / d
+  x.normalize <- (x - min(x)) / (max(x) - min(x))
   rownames(x.normalize) <- paste("repeat", 1:rep, sep="")
   colnames(x.normalize) <- paste("k", 2:kRange, sep="=")
   
