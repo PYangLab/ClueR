@@ -6,7 +6,7 @@ CLUster Evaluation (or "CLUE") is an R package for detecting key kinases or path
 CLUE was initially designed for analyzing time-course phosphoproteomics dataset using kinase-substrate annotation as reference (e.g. PhosphoSitePlus). But it can also be applied for time-series microarray or proteomics datas analysis by replacing the kinase-substrate annotation with gene sets annotation (e.g. KEGG, GO, Reactome etc.).
 
 #### Reference
-Yang P, Zheng X, Jayaswal V, Hu G, Yang JYH, Jothi R (2015) Knowledge-Based Analysis for Detecting Key Signaling Events from Time-Series Phosphoproteomics Data. PLoS Comput Biol 11(8): e1004403.
+Yang P, Zheng X, Jayaswal V, Hu G, Yang JYH, Jothi R (2015) Knowledge-Based Analysis for Detecting Key Signaling Events from Time-Series Phosphoproteomics Data. PLoS Comput Biol 11(8): e1004403. [fulltext](http://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1004403);
 
 #### Download and install
 The release version can be downloaded from CRAN [link](http://cran.r-project.org/web/packages/ClueR/);
