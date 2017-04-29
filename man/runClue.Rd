@@ -34,12 +34,14 @@ Takes in a time-course matrix and test for enrichment of the clustering using cm
 \examples{
 ## Example 1. Running CLUE with a simulated phosphoproteomics data
 
-# simulate a time-series phosphoproteomics data with 6 clusters and each cluster with a size of 500 phosphosites
+# simulate a time-series phosphoproteomics data with 6 clusters and
+# each cluster with a size of 500 phosphosites
 simuData <- temporalSimu(seed=1, groupSize=500, sdd=1, numGroups=6)
 
-# create an artificial annotation database. Specifically, Generate 100 kinase-substrate groups each
-# comprising 50 substrates assigned to a kinase. Among them, create 5 groups each contains phosphosites defined 
-to have the same temporal profile.
+# create an artificial annotation database. Specifically, Generate 100
+# kinase-substrate groups each comprising 50 substrates assigned to a kinase. 
+# Among them, create 5 groups each contains phosphosites defined 
+# to have the same temporal profile.
 
 kinaseAnno <- list()
 groupSize <- 500
@@ -64,7 +66,7 @@ boxplot(clueObj$evlMat, col=rainbow(ncol(clueObj$evlMat)), las=2, xlab=xl, ylab=
 abline(v=(clueObj$maxK-1), col=rgb(1,0,0,.3))
 
 # generate optimal clustering results using the optimal k determined by CLUE
-best <- clustOptimal(clueObj, rep=10, mfrow=c(2, 3))
+best <- clustOptimal(clueObj, rep=5, mfrow=c(2, 3))
 
 # list enriched clusters
 best$enrichList
@@ -110,7 +112,8 @@ best$enrichList
 ## Example 3. Running CLUE with a gene expression dataset, discover optimal number of clusters, 
 ## clustering data accordingly, and identify key pathway involved in each cluster.
 
-# load mouse adipocyte gene expression data (Ma et al. Molecular and Cellular Biology. 2014, 34(19):3607-17)
+# load mouse adipocyte gene expression data.
+# (Ma et al. Molecular and Cellular Biology. 2014, 34(19):3607-17)
 data(adipocyte)
 
 # load the KEGG annotations

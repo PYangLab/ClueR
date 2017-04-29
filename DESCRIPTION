@@ -8,4 +8,5 @@ Maintainer: Pengyi Yang <yangpy7@gmail.com>
 Description: CLUE is an R package for identifying optimal number of clusters in a given time-course dataset clustered by cmeans or kmeans algorithms and subsequently identify key "elements" from each cluster. See Readme on https://github.com/PengyiYang/ClueR for more details.
 License: GPL-3
 Depends: R (>= 2.10.0), e1071
+Suggests: parallel
 RoxygenNote: 6.0.1
