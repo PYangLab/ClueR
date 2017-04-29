@@ -32,6 +32,14 @@ a clue output that contains the input parameters used for evaluation and the eva
 Takes in a time-course matrix and test for enrichment of the clustering using cmeans or kmeans clustering algorithm with a reference annotation.
 }
 \examples{
+## Example 1. Runing CLUE with a sythnetic dataset containing 6 simulated clusters.
+
+
+
+
+
+## Example 2. Running CLUE with a phosphoproteomics dataset, discover optimal number of clusters, clustering data accordingly, and identify key kinases involved in each cluster.
+
 # load the human ES phosphoprotoemics data (Rigbolt et al. Sci Signal. 4(164):rs3, 2011)
 data(hES)
 # load the PhosphoSitePlus annotations (Hornbeck et al. Nucleic Acids Res. 40:D261-70, 2012)
@@ -44,14 +52,13 @@ hESs <- hES[rownames(hES) \%in\% unlist(PhosphoSite.human[ids]),]
 
 # run CLUE with a repeat of 3 times and a range from 2 to 13
 set.seed(2)
-clueObj <- runClue(Tc=hESs, annotation=PhosphoSite.human, rep=2, kRange=13)
+clueObj <- runClue(Tc=hESs, annotation=PhosphoSite.human, rep=3, kRange=13)
 
 # visualize the evaluation outcome
-Ms <- apply(clueObj$evlMat, 2, mean, na.rm=TRUE)
-Ss <- apply(clueObj$evlMat, 2, sd, na.rm=TRUE)
-library(Hmisc)
-errbar(1:length(Ms), Ms, Ms+Ss, Ms-Ss, cex=1.2, type="b", xaxt="n", xlab="k", ylab="E")
-axis(1, at=1:12, labels=paste("k=", 2:13, sep=""))
+xl <- "Number of clusters"
+yl <- "Enrichment score"
+boxplot(clueObj$evlMat, col=rainbow(ncol(clueObj$evlMat)), las=2, xlab=xl, ylab=yl, main="CLUE")
+abline(v=(clueObj$maxK-1), col=rgb(1,0,0,.3))
 
 # generate the optimal clustering results
 best <- clustOptimal(clueObj, rep=10, mfrow=c(3, 4))

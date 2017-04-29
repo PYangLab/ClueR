@@ -9,13 +9,58 @@
 #' @param effectiveSize the size of annotation groups to be considered for calculating enrichment. Groups that are too small
 #' or too large will be removed from calculating overall enrichment of the clustering.
 #' @param pvalueCutoff a pvalue cutoff for determining which kinase-substrate groups to be included in calculating overall enrichment of the clustering.
-#' @param alpha a penalty factor for penalizing large number of clusters.
+#' @param alpha a regularisation factor for penalizing large number of clusters.
 #' @return a clue output that contains the input parameters used for evaluation and the evaluation results. Use ls(x) to see details of output. 'x' be the output here.
 #' @export
 #' @examples
+#' ## Example 1. Running CLUE with a simulated phosphoproteomics data
+#' 
+#' # simulate a time-series phosphoproteomics data with 6 clusters and each cluster with a size of 500 phosphosites
+#' simuData <- temporalSimu(seed=1, groupSize=500, sdd=1, numGroups=6)
+#' 
+#' # create an artificial annotation database. Specifically, Generate 100 kinase-substrate groups each
+#' # comprising 50 substrates assigned to a kinase. Among them, create 5 groups each contains phosphosites defined 
+#' to have the same temporal profile.
+#' 
+#' kinaseAnno <- list()
+#' groupSize <- 500
+#' for (i in 1:5) {
+#'    kinaseAnno[[i]] <- paste("p", (groupSize*(i-1)+1):(groupSize*(i-1)+50), sep="_")
+#' }
+#' 
+#' for (i in 6:100) {
+#'    set.seed(i)
+#'    kinaseAnno[[i]] <- paste("p", sample.int(nrow(simuData), size = 50), sep="_")
+#' }
+#' names(kinaseAnno) <- paste("KS", 1:100, sep="_")
+#' 
+#' # run CLUE with a repeat of 5 times and a range from 2 to 20
+#' set.seed(2)
+#' clueObj <- runClue(Tc=simuData, annotation=kinaseAnno, rep=5, kRange=20)
+#' 
+#' # visualize the evaluation outcome
+#' xl <- "Number of clusters"
+#' yl <- "Enrichment score"
+#' boxplot(clueObj$evlMat, col=rainbow(ncol(clueObj$evlMat)), las=2, xlab=xl, ylab=yl, main="CLUE")
+#' abline(v=(clueObj$maxK-1), col=rgb(1,0,0,.3))
+#' 
+#' # generate optimal clustering results using the optimal k determined by CLUE
+#' best <- clustOptimal(clueObj, rep=10, mfrow=c(2, 3))
+#' 
+#' # list enriched clusters
+#' best$enrichList
+#' 
+#' # obtain the optimal clustering object
+#' best$clustObj
+#' 
+#' 
+#' ## Example 2. Running CLUE with a phosphoproteomics dataset, discover optimal number of clusters, 
+#' ## clustering data accordingly, and identify key kinases involved in each cluster.
+#' 
 #' # load the human ES phosphoprotoemics data (Rigbolt et al. Sci Signal. 4(164):rs3, 2011)
 #' data(hES)
 #' # load the PhosphoSitePlus annotations (Hornbeck et al. Nucleic Acids Res. 40:D261-70, 2012)
+#' # note that one can instead use PhosphoELM database by typing "data(PhosphoELM)".
 #' data(PhosphoSite)
 #' 
 #' # make a subset of hES dataset for demonstrating the example in a short time frame
@@ -23,25 +68,40 @@
 #' "p90RSK", "p70S6K", "PKACA", "CDK1", "DNAPK", "ATM", "CDK2")
 #' hESs <- hES[rownames(hES) %in% unlist(PhosphoSite.human[ids]),]
 #' 
-#' # run CLUE with a repeat of 3 times and a range from 2 to 13
+#' # run CLUE with a repeat of 2 times and a range from 2 to 13
 #' set.seed(2)
 #' clueObj <- runClue(Tc=hESs, annotation=PhosphoSite.human, rep=2, kRange=13)
 #' 
 #' # visualize the evaluation outcome
-#' Ms <- apply(clueObj$evlMat, 2, mean, na.rm=TRUE)
-#' Ss <- apply(clueObj$evlMat, 2, sd, na.rm=TRUE)
-#' library(Hmisc)
-#' errbar(1:length(Ms), Ms, Ms+Ss, Ms-Ss, cex=1.2, type="b", xaxt="n", xlab="k", ylab="E")
-#' axis(1, at=1:12, labels=paste("k=", 2:13, sep=""))
+#' xl <- "Number of clusters"
+#' yl <- "Enrichment score"
+#' boxplot(clueObj$evlMat, col=rainbow(ncol(clueObj$evlMat)), las=2, xlab=xl, ylab=yl, main="CLUE")
+#' abline(v=(clueObj$maxK-1), col=rgb(1,0,0,.3))
 #' 
 #' # generate the optimal clustering results
-#' best <- clustOptimal(clueObj, rep=10, mfrow=c(3, 4))
+#' best <- clustOptimal(clueObj, rep=5, mfrow=c(3, 4))
 #' 
 #' # list enriched clusters
 #' best$enrichList
 #' 
 #' # obtain the optimal clustering object (not run)
 #' # best$clustObj
+#' 
+#' 
+#' ## Example 3. Running CLUE with a gene expression dataset, discover optimal number of clusters, 
+#' ## clustering data accordingly, and identify key pathway involved in each cluster.
+#' 
+#' # load mouse adipocyte gene expression data (Ma et al. Molecular and Cellular Biology. 2014, 34(19):3607-17)
+#' data(adipocyte)
+#' 
+#' # load the KEGG annotations
+#' # note that one can instead use reactome, GOBP, biocarta database
+#' data(Pathways)
+#' 
+#' # run CLUE with a repeat of 3 times and a range from 2 to 13 (not run)
+#' # set.seed(3)
+#' # clueObj <- runClue(Tc=adipocyte, annotation=Pathways.KEGG, rep=3, kRange=13)
+#' 
 #' 
 runClue <- function(Tc, annotation, rep=10, kRange, clustAlg="cmeans", effectiveSize=c(5, 100), pvalueCutoff=0.05, alpha=0.5) {
   
@@ -56,8 +116,8 @@ runClue <- function(Tc, annotation, rep=10, kRange, clustAlg="cmeans", effective
   annotation.filtered <- annotation.intersect[lapply(annotation.intersect, length) > 0]
   
   # apply CLUE
-  repeat.list <- list()
-  for(rp in 1:rep) {
+  library(parallel)
+  repeat.list <- mclapply(1:rep, function(rp){
     cat("repeat", rp, "\n");
     enrichment <- c()
     for (k in 2:kRange) {
@@ -71,15 +131,17 @@ runClue <- function(Tc, annotation, rep=10, kRange, clustAlg="cmeans", effective
         clustered <- cmeans(Tc, centers=k, iter.max=50, m=1.25)
       }
       
-      # compute clustering enrichment
+      # compute fisher's p-value for each cluster
       evaluate <- clustEnrichment(clustered, annotation.filtered, effectiveSize, pvalueCutoff)
       fisher.pvalue <- evaluate$fisher.pvalue
+      
+      # compute clustering enrichment (this is regularised by the number of clusters) 
       escore <- -log10(fisher.pvalue) - alpha * nrow(clustered$centers)
       
       enrichment <- c(enrichment, escore)
     }
-    repeat.list[[rp]] <- enrichment
-  }
+    enrichment
+  })
   
   # combine the multiple testing results
   x <- do.call(rbind, repeat.list)

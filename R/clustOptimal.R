@@ -2,7 +2,7 @@
 #' 
 #' Takes a clue output and generate the optimal clustering of the time-course data.
 #' @param clueObj the output from runClue.
-#' @param rep number of times the clustering is to be applied to find the best clustering result.
+#' @param rep number of times (default is 5) the clustering is to be repeated to find the best clustering result.
 #' @param user.maxK user defined optimal k value for generating optimal clustering. If not provided, the optimal k that is identified by clue will be used.
 #' @param visualize a boolean parameter indicating whether to visualize the clustering results.
 #' @param ... pass additional parameter for controlling the plot if visualize is TRUE.
@@ -35,11 +35,10 @@
 #' clueObj <- runClue(Tc=simuData, annotation=kinaseAnno, rep=5, kRange=7)
 #' 
 #' # visualize the evaluation outcome
-#' Ms <- apply(clueObj$evlMat, 2, mean, na.rm=TRUE)
-#' Ss <- apply(clueObj$evlMat, 2, sd, na.rm=TRUE)
-#' library(Hmisc)
-#' errbar(1:length(Ms), Ms, Ms+Ss, Ms-Ss, cex=1.2, type="b", xaxt="n", xlab="k", ylab="E")
-#' axis(1, at=1:6, labels=paste("k=", 2:7, sep=""))
+#' xl <- "Number of clusters"
+#' yl <- "Enrichment score"
+#' boxplot(clueObj$evlMat, col=rainbow(ncol(clueObj$evlMat)), las=2, xlab=xl, ylab=yl, main="CLUE")
+#' abline(v=(clueObj$maxK-1), col=rgb(1,0,0,.3))
 #' 
 #' # generate optimal clustering results using the optimal k determined by CLUE
 #' best <- clustOptimal(clueObj, rep=3, mfrow=c(2, 3))
@@ -50,7 +49,7 @@
 #' # obtain the optimal clustering object (not run)
 #' # best$clustObj
 #' 
-clustOptimal <- function(clueObj, rep, user.maxK=NULL, visualize=TRUE, ...) {
+clustOptimal <- function(clueObj, rep=5, user.maxK=NULL, visualize=TRUE, ...) {
   
   bstPvalue <- 1
   bst.clustObj <- c()
