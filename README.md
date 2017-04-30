@@ -1,7 +1,7 @@
 ### Cluster Evaluation R package (ClueR) for detecting key kinases or pathways from time-series phosphoproteomics or gene expression (microarray, RNA-seq, or proteomics) datasets
 
 #### Description
-CLUster Evaluation (or "CLUE") is an R package for detecting key kinases or pathways from a given time-series phosphoproteomics or gene expression dataset clustered by cmeans or kmeans algorithms. It firstly identifies the optimal number of clusters in the time-servies dataset; Then, it partition the dataset based on the optimal number of clusters determined in the first step; It finally detects kinases or pathways enriched in each cluster from optimally partitioned dataset. 
+CLUster Evaluation (CLUE), a computational method, and its implementation in R (ClueR) is for detecting key kinases or pathways from a given time-series phosphoproteomics or gene expression dataset clustered by cmeans or kmeans algorithms. It firstly identifies the optimal number of clusters in the time-servies dataset; Then, it partition the dataset based on the optimal number of clusters determined in the first step; It finally detects kinases or pathways enriched in each cluster from optimally partitioned dataset.
 
 The above three steps rely extensively on Fisher's exact test, Fisher's combined statistics, cluster regularisations, and they are performed against a user-specified reference annotation database such phosphoSitePlus in the case of phosphoproteomics data or KEGG in the case of gene expression data. There is a large selection of built-in annotation databases for both phosphoproteomics data and gene expression data but users can supply their own annotation database.
 
