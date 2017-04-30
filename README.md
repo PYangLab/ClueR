@@ -23,7 +23,7 @@ whereas the latest release of development version can be downloaded from [here](
 ```r
 devtools::install_github("PengyiYang/ClueR")
 ```
-Make sure that you have Rtools install in your system for building the package from the source.
+Make sure that you have [Rtools](https://cran.r-project.org/bin/windows/Rtools/) install in your system for building the package from the source.
 
 #### Examples
 (1) This example demonstrate how CLUE can be applied to discover the optimal number of clusters from a simulated data.
