@@ -46,8 +46,10 @@
 #' # list enriched clusters
 #' best$enrichList
 #' 
-#' # obtain the optimal clustering object (not run)
-#' # best$clustObj
+#' # obtain the optimal clustering object
+#' \donttest{
+#'   best$clustObj
+#' }
 #' 
 clustOptimal <- function(clueObj, rep=5, user.maxK=NULL, visualize=TRUE, ...) {
   

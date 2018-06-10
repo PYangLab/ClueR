@@ -45,8 +45,7 @@ for (i in 6:100) {
 names(kinaseAnno) <- paste("KS", 1:100, sep="_")
 
 # testing enrichment of clustering results by partition the data into six clusters
-# using cmeans algorithm. 
-library(e1071)
+# using cmeans algorithm.
 clustObj <- cmeans(simuData, centers=6, iter.max=50, m=1.25)
 clustEnrichment(clustObj, annotation=kinaseAnno, effectiveSize=c(5, 100), pvalueCutoff=0.05)
 

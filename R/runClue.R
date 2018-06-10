@@ -38,23 +38,20 @@
 #' 
 #' ## run CLUE with a repeat of 3 times and a range from 2 to 8
 #' set.seed(1)
-#' clueObj <- runClue(Tc=simuData, annotation=kinaseAnno, rep=3, kRange=8)
+#' cl <- runClue(Tc=simuData, annotation=kinaseAnno, rep=3, kRange=8)
 #' 
 #' ## visualize the evaluation outcome
-#' xl <- "Number of clusters"
-#' yl <- "Enrichment score"
-#' boxplot(clueObj$evlMat, col=rainbow(ncol(clueObj$evlMat)), las=2, xlab=xl, ylab=yl, main="CLUE")
-#' abline(v=(clueObj$maxK-1), col=rgb(1,0,0,.3))
+#' boxplot(cl$evlMat, col=rainbow(8), las=2, xlab="# cluster", ylab="Enrichment", main="CLUE")
+#' abline(v=(cl$maxK-1), col=rgb(1,0,0,.3))
 #' 
 #' ## generate optimal clustering results using the optimal k determined by CLUE
-#' best <- clustOptimal(clueObj, rep=3, mfrow=c(2, 3))
+#' best <- clustOptimal(cl, rep=3, mfrow=c(2, 3))
 #' 
 #' ## list enriched clusters
 #' best$enrichList
 #' 
-#' ## obtain the optimal clustering object (not run)
-#' # best$clustObj
-#' 
+#' ## obtain the optimal clustering object
+#' \donttest{best$clustObj}
 #' 
 #' ## Example 2. Running CLUE with a phosphoproteomics dataset, discover optimal number of clusters, 
 #' ## clustering data accordingly, and identify key kinases involved in each cluster.
@@ -65,25 +62,35 @@
 #' # note that one can instead use PhosphoELM database by typing "data(PhosphoELM)".
 #' data(PhosphoSite)
 #' 
-#' ## run CLUE with a repeat of 5 times and a range from 2 to 13 (not run)
-#' # set.seed(2)
-#' # clueObj <- runClue(Tc=hES, annotation=PhosphoSite.human, rep=5, kRange=13)
+#' ## run CLUE with a repeat of 5 times and a range from 2 to 15
+#' \donttest{set.seed(1)
+#' cl <- runClue(Tc=hES, annotation=PhosphoSite.human, rep=5, kRange=15)
+#' 
+#' boxplot(cl$evlMat, col=rainbow(15), las=2, xlab="# cluster", ylab="Enrichment", main="CLUE")
+#' abline(v=(cl$maxK-1), col=rgb(1,0,0,.3))
+#' 
+#' best <- clustOptimal(cl, rep=3, mfrow=c(4, 4))
+#' 
+#' best$enrichList}
 #' 
 #' ## Example 3. Running CLUE with a gene expression dataset, discover optimal number of clusters, 
 #' ## clustering data accordingly, and identify key pathway involved in each cluster.
 #' 
-#' ## load mouse adipocyte gene expression data.
-#' ## (Ma et al. Molecular and Cellular Biology. 2014, 34(19):3607-17)
+#' ## load mouse adipocyte gene expression data 
+#' # (Ma et al. Molecular and Cellular Biology. 2014, 34(19):3607-17)
 #' data(adipocyte)
 #' 
 #' ## load the KEGG annotations
 #' ## note that one can instead use reactome, GOBP, biocarta database
 #' data(Pathways)
 #' 
-#' ## run CLUE with a repeat of 5 times and a range from 2 to 13 (not run)
-#' # set.seed(3)
-#' # clueObj <- runClue(Tc=adipocyte, annotation=Pathways.KEGG, rep=5, kRange=13)
+#' ## run CLUE with a repeat of 5 times and a range from 2 to 13
+#' \donttest{
+#' set.seed(1)
+#' cl <- runClue(Tc=adipocyte, annotation=Pathways.KEGG, rep=5, kRange=13)
 #' 
+#' boxplot(cl$evlMat, col=rainbow(13), las=2, xlab="# cluster", ylab="Enrichment", main="CLUE")
+#' abline(v=(cl$maxK-1), col=rgb(1,0,0,.3))}
 #' 
 runClue <- function(Tc, annotation, rep=10, kRange, clustAlg="cmeans", effectiveSize=c(5, 100), pvalueCutoff=0.05, alpha=0.5) {
   

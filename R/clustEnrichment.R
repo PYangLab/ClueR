@@ -10,6 +10,7 @@
 #' @param pvalueCutoff a pvalue cutoff for determining which kinase-substrate groups to be included in calculating overall enrichment of the clustering.
 #' @return a list that contains both the p-value indicating the overall enrichment and a sublist that details the enrichment of each individual cluster.
 #' @export
+#' 
 #' @examples
 #' # simulate a time-series data with six distinctive profile groups and each group with
 #' # a size of 500 phosphorylation sites.
@@ -32,8 +33,7 @@
 #' names(kinaseAnno) <- paste("KS", 1:100, sep="_")
 #'
 #' # testing enrichment of clustering results by partition the data into six clusters
-#' # using cmeans algorithm. 
-#' library(e1071)
+#' # using cmeans algorithm.
 #' clustObj <- cmeans(simuData, centers=6, iter.max=50, m=1.25)
 #' clustEnrichment(clustObj, annotation=kinaseAnno, effectiveSize=c(5, 100), pvalueCutoff=0.05)
 #'
