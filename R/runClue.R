@@ -3,7 +3,7 @@
 #' Takes in a time-course matrix and test for enrichment of the clustering using cmeans or kmeans clustering algorithm with a reference annotation.
 #' @param Tc a numeric matrix to be clustered. The columns correspond to the time-course and the rows correspond to phosphorylation sites.
 #' @param annotation a list with names correspond to kinases and elements correspond to substrates belong to each kinase.
-#' @param rep number of times the clustering is to be applied. This is to account for variability in the clustering algorithm.
+#' @param rep number of times the clustering is to be applied. This is to account for variability in the clustering algorithm. Default is 5.
 #' @param kRange the range of k to be tested for clustering. Default is 2:10
 #' @param clustAlg the clustering algorithm to be used. The default is cmeans clustering.
 #' @param effectiveSize the size of annotation groups to be considered for calculating enrichment. Groups that are too small
@@ -42,7 +42,6 @@
 #' 
 #' ## visualize the evaluation outcome
 #' boxplot(cl$evlMat, col=rainbow(8), las=2, xlab="# cluster", ylab="Enrichment", main="CLUE")
-#' abline(v=(cl$maxK-1), col=rgb(1,0,0,.3))
 #' 
 #' ## generate optimal clustering results using the optimal k determined by CLUE
 #' best <- clustOptimal(cl, rep=3, mfrow=c(2, 3))
@@ -67,7 +66,6 @@
 #' cl <- runClue(Tc=hES, annotation=PhosphoSite.human, rep=5, kRange=2:15)
 #' 
 #' boxplot(cl$evlMat, col=rainbow(15), las=2, xlab="# cluster", ylab="Enrichment", main="CLUE")
-#' abline(v=(cl$maxK-1), col=rgb(1,0,0,.3))
 #' 
 #' best <- clustOptimal(cl, rep=3, mfrow=c(4, 4))
 #' 
@@ -84,15 +82,19 @@
 #' ## note that one can instead use reactome, GOBP, biocarta database
 #' data(Pathways)
 #' 
-#' ## run CLUE with a repeat of 5 times and a range from 2 to 13
+#' ## select genes that are differentially expressed during adipocyte differentiation
+#' adipocyte.selected <- adipocyte[adipocyte[,"DE"] == 1,]
+#' 
+#' ## run CLUE with a repeat of 5 times and a range from 10 to 22
 #' \donttest{
-#' set.seed(1)
-#' cl <- runClue(Tc=adipocyte, annotation=Pathways.KEGG, rep=5, kRange=2:13)
+#' set.seed(3)
+#' cl <- runClue(Tc=adipocyte.selected, annotation=Pathways.KEGG, rep=3, kRange=10:20)
 #' 
-#' boxplot(cl$evlMat, col=rainbow(13), las=2, xlab="# cluster", ylab="Enrichment", main="CLUE")
-#' abline(v=(cl$maxK-1), col=rgb(1,0,0,.3))}
+#' xl <- "Number of clusters"
+#' yl <- "Enrichment score"
+#' boxplot(cl$evlMat, col=rainbow(ncol(cl$evlMat)), las=2, xlab=xl, ylab=yl, main="CLUE")}
 #' 
-runClue <- function(Tc, annotation, rep=10, kRange=2:10, clustAlg="cmeans", effectiveSize=c(5, 100), pvalueCutoff=0.05, alpha=0.5) {
+runClue <- function(Tc, annotation, rep=5, kRange=2:10, clustAlg="cmeans", effectiveSize=c(5, 100), pvalueCutoff=0.05, alpha=0.5) {
   
   # standardize the matrix by row
   means <- apply(Tc, 1, mean)
@@ -141,7 +143,7 @@ runClue <- function(Tc, annotation, rep=10, kRange=2:10, clustAlg="cmeans", effe
   colnames(x.normalize) <- paste("k", kRange, sep="=")
   
   # identify the k that maximize the enrichment
-  maxK <- which.max(apply(x.normalize, 2, median)) + 1
+  maxK <- which.max(apply(x.normalize, 2, median)) + (kRange[1] - 1)
   
   # return the evaluation results
   result <- list()
