@@ -55,7 +55,7 @@ names(kinaseAnno) <- paste("KS", 1:100, sep="_")
 
 # run CLUE with a repeat of 5 times and a range from 2 to 20
 set.seed(2)
-clueObj <- runClue(Tc=simuData, annotation=kinaseAnno, rep=5, kRange=20)
+clueObj <- runClue(Tc=simuData, annotation=kinaseAnno, rep=5, kRange=2:20)
 
 # visualize the evaluation outcome
 xl <- "Number of clusters"
@@ -89,7 +89,7 @@ data(PhosphoSite)
 
 # run CLUE with a repeat of 5 times and a range from 2 to 20
 set.seed(2)
-clueObj <- runClue(Tc=hES, annotation=PhosphoSite.human, rep=5, kRange=20)
+clueObj <- runClue(Tc=hES, annotation=PhosphoSite.human, rep=5, kRange=2:20)
 
 # visualize the evaluation outcome
 xl <- "Number of clusters"
@@ -116,9 +116,12 @@ data(adipocyte)
 # load the KEGG annotations. note that one can instead use reactome, GOBP, biocarta database
 data(Pathways)
 
+# select genes that are differentially expressed during adipocyte differentiation
+adipocyte.selected <- adipocyte[adipocyte[,"DE"] == 1,]
+
 # run CLUE with a repeat of 3 times and a range from 2 to 13
 set.seed(3)
-clueObj <- runClue(Tc=adipocyte, annotation=Pathways.KEGG, rep=3, kRange=13)
+clueObj <- runClue(Tc=adipocyte.selected, annotation=Pathways.KEGG, rep=3, kRange=10:25)
 
 # visualize the evaluation outcome
 xl <- "Number of clusters"

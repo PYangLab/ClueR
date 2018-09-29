@@ -4,7 +4,7 @@
 #' @param Tc a numeric matrix to be clustered. The columns correspond to the time-course and the rows correspond to phosphorylation sites.
 #' @param annotation a list with names correspond to kinases and elements correspond to substrates belong to each kinase.
 #' @param rep number of times the clustering is to be applied. This is to account for variability in the clustering algorithm.
-#' @param kRange the range of k to be tested for clustering.
+#' @param kRange the range of k to be tested for clustering. Default is 2:10
 #' @param clustAlg the clustering algorithm to be used. The default is cmeans clustering.
 #' @param effectiveSize the size of annotation groups to be considered for calculating enrichment. Groups that are too small
 #' or too large will be removed from calculating overall enrichment of the clustering.
@@ -38,7 +38,7 @@
 #' 
 #' ## run CLUE with a repeat of 3 times and a range from 2 to 8
 #' set.seed(1)
-#' cl <- runClue(Tc=simuData, annotation=kinaseAnno, rep=3, kRange=8)
+#' cl <- runClue(Tc=simuData, annotation=kinaseAnno, rep=3, kRange=2:8)
 #' 
 #' ## visualize the evaluation outcome
 #' boxplot(cl$evlMat, col=rainbow(8), las=2, xlab="# cluster", ylab="Enrichment", main="CLUE")
@@ -64,7 +64,7 @@
 #' 
 #' ## run CLUE with a repeat of 5 times and a range from 2 to 15
 #' \donttest{set.seed(1)
-#' cl <- runClue(Tc=hES, annotation=PhosphoSite.human, rep=5, kRange=15)
+#' cl <- runClue(Tc=hES, annotation=PhosphoSite.human, rep=5, kRange=2:15)
 #' 
 #' boxplot(cl$evlMat, col=rainbow(15), las=2, xlab="# cluster", ylab="Enrichment", main="CLUE")
 #' abline(v=(cl$maxK-1), col=rgb(1,0,0,.3))
@@ -87,12 +87,12 @@
 #' ## run CLUE with a repeat of 5 times and a range from 2 to 13
 #' \donttest{
 #' set.seed(1)
-#' cl <- runClue(Tc=adipocyte, annotation=Pathways.KEGG, rep=5, kRange=13)
+#' cl <- runClue(Tc=adipocyte, annotation=Pathways.KEGG, rep=5, kRange=2:13)
 #' 
 #' boxplot(cl$evlMat, col=rainbow(13), las=2, xlab="# cluster", ylab="Enrichment", main="CLUE")
 #' abline(v=(cl$maxK-1), col=rgb(1,0,0,.3))}
 #' 
-runClue <- function(Tc, annotation, rep=10, kRange, clustAlg="cmeans", effectiveSize=c(5, 100), pvalueCutoff=0.05, alpha=0.5) {
+runClue <- function(Tc, annotation, rep=10, kRange=2:10, clustAlg="cmeans", effectiveSize=c(5, 100), pvalueCutoff=0.05, alpha=0.5) {
   
   # standardize the matrix by row
   means <- apply(Tc, 1, mean)
@@ -108,7 +108,7 @@ runClue <- function(Tc, annotation, rep=10, kRange, clustAlg="cmeans", effective
   repeat.list <- mclapply(1:rep, function(rp){
     cat("repeat", rp, "\n");
     enrichment <- c()
-    for (k in 2:kRange) {
+    for (k in kRange) {
       clustered <- c()
       if (clustAlg == "cmeans") {
         clustered <- cmeans(Tc, centers=k, iter.max=50, m=1.25)
@@ -138,7 +138,7 @@ runClue <- function(Tc, annotation, rep=10, kRange, clustAlg="cmeans", effective
   # scale the values into [0, 1]
   x.normalize <- (x - min(x)) / (max(x) - min(x))
   rownames(x.normalize) <- paste("repeat", 1:rep, sep="")
-  colnames(x.normalize) <- paste("k", 2:kRange, sep="=")
+  colnames(x.normalize) <- paste("k", kRange, sep="=")
   
   # identify the k that maximize the enrichment
   maxK <- which.max(apply(x.normalize, 2, median)) + 1
