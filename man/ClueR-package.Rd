@@ -27,8 +27,8 @@ Make sure that you have Rtools install in your system for building the package f
 \tabular{ll}{
 Package: \tab CLUE\cr
 Type: \tab Package\cr
-Version: \tab 1.2\cr
-Date: \tab 2017-04-28\cr
+Version: \tab 1.4\cr
+Date: \tab 2018-09-29\cr
 License: \tab GPL-3\cr
 }
 
