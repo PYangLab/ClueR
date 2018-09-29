@@ -53,9 +53,9 @@ for (i in 6:100) {
 }
 names(kinaseAnno) <- paste("KS", 1:100, sep="_")
 
-# run CLUE with a repeat of 5 times and a range from 2 to 20
+# run CLUE with a repeat of 5 times and a range from 2 to 10
 set.seed(2)
-clueObj <- runClue(Tc=simuData, annotation=kinaseAnno, rep=5, kRange=2:20)
+clueObj <- runClue(Tc=simuData, annotation=kinaseAnno, rep=5, kRange=2:10)
 
 # visualize the evaluation outcome
 xl <- "Number of clusters"
