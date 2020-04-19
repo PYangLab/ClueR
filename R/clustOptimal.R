@@ -5,6 +5,9 @@
 #' @param rep number of times (default is 5) the clustering is to be repeated to find the best clustering result.
 #' @param user.maxK user defined optimal k value for generating optimal clustering. If not provided, the optimal k that is identified by clue will be used.
 #' @param visualize a boolean parameter indicating whether to visualize the clustering results.
+#' @param effectiveSize the size of kinase-substrate groups to be considered for calculating enrichment. Groups that are too small
+#' or too large will be removed from calculating overall enrichment of the clustering.
+#' @param pvalueCutoff a pvalue cutoff for determining which kinase-substrate groups to be included in calculating overall enrichment of the clustering.
 #' @param ... pass additional parameter for controlling the plot if visualize is TRUE.
 #' @return return a list containing optimal clustering object and enriched kinases or gene sets. 
 #'
@@ -51,7 +54,7 @@
 #'   best$clustObj
 #' }
 #' 
-clustOptimal <- function(clueObj, rep=5, user.maxK=NULL, visualize=TRUE, ...) {
+clustOptimal <- function(clueObj, rep=5, user.maxK=NULL, effectiveSize=NULL, pvalueCutoff=NULL, visualize=TRUE, ...) {
   
   bstPvalue <- 1
   bst.clustObj <- c()
@@ -83,9 +86,22 @@ clustOptimal <- function(clueObj, rep=5, user.maxK=NULL, visualize=TRUE, ...) {
       }
     }
     
-    evaluation <- clustEnrichment(clustObj, clueObj$annotation, clueObj$effectiveSize, clueObj$pvalueCutoff)
-    currentPvalue <- evaluation$fisher.pvalue
-    
+    evaluation <- c()
+    currentPvalue <- c()
+    if (!is.null(clueObj$effectiveSizeK) & !is.null(clueObj$pvalueCutoff)) {
+      evaluation <- clustEnrichment(clustObj, clueObj$annotation, effectiveSize, pvalueCutoff)
+      currentPvalue <- evaluation$fisher.pvalue
+    } else if (!is.null(clueObj$effectiveSizeK) & is.null(clueObj$pvalueCutoff)) {
+      evaluation <- clustEnrichment(clustObj, clueObj$annotation, effectiveSize, clueObj$pvalueCutoff)
+      currentPvalue <- evaluation$fisher.pvalue
+    } else if (is.null(clueObj$effectiveSizeK) & !is.null(clueObj$pvalueCutoff)) {
+      evaluation <- clustEnrichment(clustObj, clueObj$annotation, clueObj$effectiveSize, pvalueCutoff)
+      currentPvalue <- evaluation$fisher.pvalue
+    } else {
+      evaluation <- clustEnrichment(clustObj, clueObj$annotation, clueObj$effectiveSize, clueObj$pvalueCutoff)
+      currentPvalue <- evaluation$fisher.pvalue
+    }
+      
     if (currentPvalue < bstPvalue) {
       bstPvalue <- currentPvalue
       bst.clustObj <- clustObj

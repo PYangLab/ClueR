@@ -4,7 +4,7 @@
 \alias{runClue}
 \title{Run CLUster Evaluation}
 \usage{
-runClue(Tc, annotation, rep = 10, kRange, clustAlg = "cmeans",
+runClue(Tc, annotation, rep = 5, kRange = 2:10, clustAlg = "cmeans",
   effectiveSize = c(5, 100), pvalueCutoff = 0.05, alpha = 0.5)
 }
 \arguments{
@@ -12,9 +12,9 @@ runClue(Tc, annotation, rep = 10, kRange, clustAlg = "cmeans",
 
 \item{annotation}{a list with names correspond to kinases and elements correspond to substrates belong to each kinase.}
 
-\item{rep}{number of times the clustering is to be applied. This is to account for variability in the clustering algorithm.}
+\item{rep}{number of times the clustering is to be applied. This is to account for variability in the clustering algorithm. Default is 5.}
 
-\item{kRange}{the range of k to be tested for clustering.}
+\item{kRange}{the range of k to be tested for clustering. Default is 2:10}
 
 \item{clustAlg}{the clustering algorithm to be used. The default is cmeans clustering.}
 
@@ -57,11 +57,10 @@ names(kinaseAnno) <- paste("KS", 1:50, sep="_")
 
 ## run CLUE with a repeat of 3 times and a range from 2 to 8
 set.seed(1)
-cl <- runClue(Tc=simuData, annotation=kinaseAnno, rep=3, kRange=8)
+cl <- runClue(Tc=simuData, annotation=kinaseAnno, rep=3, kRange=2:8)
 
 ## visualize the evaluation outcome
 boxplot(cl$evlMat, col=rainbow(8), las=2, xlab="# cluster", ylab="Enrichment", main="CLUE")
-abline(v=(cl$maxK-1), col=rgb(1,0,0,.3))
 
 ## generate optimal clustering results using the optimal k determined by CLUE
 best <- clustOptimal(cl, rep=3, mfrow=c(2, 3))
@@ -83,10 +82,9 @@ data(PhosphoSite)
 
 ## run CLUE with a repeat of 5 times and a range from 2 to 15
 \donttest{set.seed(1)
-cl <- runClue(Tc=hES, annotation=PhosphoSite.human, rep=5, kRange=15)
+cl <- runClue(Tc=hES, annotation=PhosphoSite.human, rep=5, kRange=2:15)
 
 boxplot(cl$evlMat, col=rainbow(15), las=2, xlab="# cluster", ylab="Enrichment", main="CLUE")
-abline(v=(cl$maxK-1), col=rgb(1,0,0,.3))
 
 best <- clustOptimal(cl, rep=3, mfrow=c(4, 4))
 
@@ -103,12 +101,16 @@ data(adipocyte)
 ## note that one can instead use reactome, GOBP, biocarta database
 data(Pathways)
 
-## run CLUE with a repeat of 5 times and a range from 2 to 13
-\donttest{
-set.seed(1)
-cl <- runClue(Tc=adipocyte, annotation=Pathways.KEGG, rep=5, kRange=13)
+## select genes that are differentially expressed during adipocyte differentiation
+adipocyte.selected <- adipocyte[adipocyte[,"DE"] == 1,]
 
-boxplot(cl$evlMat, col=rainbow(13), las=2, xlab="# cluster", ylab="Enrichment", main="CLUE")
-abline(v=(cl$maxK-1), col=rgb(1,0,0,.3))}
+## run CLUE with a repeat of 5 times and a range from 10 to 22
+\donttest{
+set.seed(3)
+cl <- runClue(Tc=adipocyte.selected, annotation=Pathways.KEGG, rep=3, kRange=10:20)
+
+xl <- "Number of clusters"
+yl <- "Enrichment score"
+boxplot(cl$evlMat, col=rainbow(ncol(cl$evlMat)), las=2, xlab=xl, ylab=yl, main="CLUE")}
 
 }
