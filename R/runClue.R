@@ -126,7 +126,12 @@ runClue <- function(Tc, annotation, rep=5, kRange=2:10, clustAlg="cmeans", effec
       fisher.pvalue <- evaluate$fisher.pvalue
       
       # compute clustering enrichment (this is regularised by the number of clusters) 
-      escore <- -log10(fisher.pvalue) - alpha * nrow(clustered$centers)
+      escore <- c()
+      if (fisher.pvalue == 0) {
+        escore <- -log10(.Machine$double.xmin) - alpha * nrow(clustered$centers)
+      } else {
+        escore <- -log10(fisher.pvalue) - alpha * nrow(clustered$centers)
+      }
       
       enrichment <- c(enrichment, escore)
     }
