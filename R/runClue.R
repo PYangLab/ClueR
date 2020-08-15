@@ -10,6 +10,7 @@
 #' or too large will be removed from calculating overall enrichment of the clustering.
 #' @param pvalueCutoff a pvalue cutoff for determining which kinase-substrate groups to be included in calculating overall enrichment of the clustering.
 #' @param alpha a regularisation factor for penalizing large number of clusters.
+#' @param standardise whether to z-score standardise the input matrix.
 #' @return a clue output that contains the input parameters used for evaluation and the evaluation results. Use ls(x) to see details of output. 'x' be the output here.
 #' @export
 #' @examples
@@ -94,13 +95,15 @@
 #' yl <- "Enrichment score"
 #' boxplot(cl$evlMat, col=rainbow(ncol(cl$evlMat)), las=2, xlab=xl, ylab=yl, main="CLUE")}
 #' 
-runClue <- function(Tc, annotation, rep=5, kRange=2:10, clustAlg="cmeans", effectiveSize=c(5, 100), pvalueCutoff=0.05, alpha=0.5) {
+runClue <- function(Tc, annotation, rep=5, kRange=2:10, clustAlg="cmeans", effectiveSize=c(5, 100), pvalueCutoff=0.05, alpha=0.5, standardise=TRUE) {
   
   # standardize the matrix by row
-  means <- apply(Tc, 1, mean)
-  stds <- apply(Tc, 1, sd)
-  tmp <- sweep(Tc, 1, means, FUN="-")
-  Tc <- sweep(tmp, 1, stds, FUN="/")
+  if(isTRUE(standardise)) {
+    means <- apply(Tc, 1, mean)
+    stds <- apply(Tc, 1, sd)
+    tmp <- sweep(Tc, 1, means, FUN="-")
+    Tc <- sweep(tmp, 1, stds, FUN="/")
+  }
   
   ## filter the annotation groups that has no entry from the Tc
   annotation.intersect <- lapply(annotation, intersect, rownames(Tc))
