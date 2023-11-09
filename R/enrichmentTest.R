@@ -13,7 +13,7 @@
 #' @export
 #' 
 enrichmentTest <- function(clust, annotation, universe, alter="greater") {
-  
+
   fisherTest.mat <- matrix("NA", ncol=4, nrow=length(annotation))
   colnames(fisherTest.mat) <- c("kinase", "pvalue", "# of substrates", "substrates")
   for (i in 1:length(annotation)) {

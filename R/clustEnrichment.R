@@ -8,6 +8,7 @@
 #' @param effectiveSize the size of kinase-substrate groups to be considered for calculating enrichment. Groups that are too small
 #' or too large will be removed from calculating overall enrichment of the clustering.
 #' @param pvalueCutoff a pvalue cutoff for determining which kinase-substrate groups to be included in calculating overall enrichment of the clustering.
+#' @param universe the universe of genes/proteins/phosphosites etc. that the enrichment is calculated against.
 #' @return a list that contains both the p-value indicating the overall enrichment and a sublist that details the enrichment of each individual cluster.
 #' @export
 #' 
@@ -37,15 +38,19 @@
 #' clustObj <- cmeans(simuData, centers=6, iter.max=50, m=1.25)
 #' clustEnrichment(clustObj, annotation=kinaseAnno, effectiveSize=c(5, 100), pvalueCutoff=0.05)
 #'
-clustEnrichment <- function(clustObj, annotation, effectiveSize, pvalueCutoff=0.05) {
+clustEnrichment <- function(clustObj, annotation, effectiveSize, pvalueCutoff=0.05, universe) {
   
   numOfcluster <- nrow(clustObj$centers)
   enrich.list <- list()
   counter <- 0;
   listName <- c()
   for (j in 1:numOfcluster) {
-    # apply the Fisher exact test
-    enrich.stats <- enrichmentTest(clust=names(which(clustObj$cluster == j)), annotation=annotation, universe=names(clustObj$cluster))
+
+    if (is.null(universe)) {
+      enrich.stats <- enrichmentTest(clust=names(which(clustObj$cluster == j)), annotation=annotation, universe=names(clustObj$cluster))
+    } else {
+      enrich.stats <- enrichmentTest(clust=names(which(clustObj$cluster == j)), annotation=annotation, universe)
+    }
 
     # effective cluster filtering
     sizes <- as.numeric(enrich.stats[,3])
