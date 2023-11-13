@@ -4,8 +4,18 @@
 \alias{runClue}
 \title{Run CLUster Evaluation}
 \usage{
-runClue(Tc, annotation, rep = 5, kRange = 2:10, clustAlg = "cmeans",
-  effectiveSize = c(5, 100), pvalueCutoff = 0.05, alpha = 0.5)
+runClue(
+  Tc,
+  annotation,
+  rep = 5,
+  kRange = 2:10,
+  clustAlg = "cmeans",
+  effectiveSize = c(5, 100),
+  pvalueCutoff = 0.05,
+  alpha = 0.5,
+  standardise = TRUE,
+  universe = NULL
+)
 }
 \arguments{
 \item{Tc}{a numeric matrix to be clustered. The columns correspond to the time-course and the rows correspond to phosphorylation sites.}
@@ -24,6 +34,10 @@ or too large will be removed from calculating overall enrichment of the clusteri
 \item{pvalueCutoff}{a pvalue cutoff for determining which kinase-substrate groups to be included in calculating overall enrichment of the clustering.}
 
 \item{alpha}{a regularisation factor for penalizing large number of clusters.}
+
+\item{standardise}{whether to z-score standardise the input matrix.}
+
+\item{universe}{the universe of genes/proteins/phosphosites etc. that the enrichment is calculated against. The default are the row names of the dataset.}
 }
 \value{
 a clue output that contains the input parameters used for evaluation and the evaluation results. Use ls(x) to see details of output. 'x' be the output here.
@@ -57,7 +71,7 @@ names(kinaseAnno) <- paste("KS", 1:50, sep="_")
 
 ## run CLUE with a repeat of 3 times and a range from 2 to 8
 set.seed(1)
-cl <- runClue(Tc=simuData, annotation=kinaseAnno, rep=3, kRange=2:8)
+cl <- runClue(Tc=simuData, annotation=kinaseAnno, rep=3, kRange=2:8, standardise = TRUE, universe = NULL)
 
 ## visualize the evaluation outcome
 boxplot(cl$evlMat, col=rainbow(8), las=2, xlab="# cluster", ylab="Enrichment", main="CLUE")
@@ -82,7 +96,7 @@ data(PhosphoSite)
 
 ## run CLUE with a repeat of 5 times and a range from 2 to 15
 \donttest{set.seed(1)
-cl <- runClue(Tc=hES, annotation=PhosphoSite.human, rep=5, kRange=2:15)
+cl <- runClue(Tc=hES, annotation=PhosphoSite.human, rep=5, kRange=2:15, standardise = TRUE, universe = NULL)
 
 boxplot(cl$evlMat, col=rainbow(15), las=2, xlab="# cluster", ylab="Enrichment", main="CLUE")
 
@@ -107,7 +121,7 @@ adipocyte.selected <- adipocyte[adipocyte[,"DE"] == 1,]
 ## run CLUE with a repeat of 5 times and a range from 10 to 22
 \donttest{
 set.seed(3)
-cl <- runClue(Tc=adipocyte.selected, annotation=Pathways.KEGG, rep=3, kRange=10:20)
+cl <- runClue(Tc=adipocyte.selected, annotation=Pathways.KEGG, rep=3, kRange=10:20, standardise = TRUE, universe = NULL)
 
 xl <- "Number of clusters"
 yl <- "Enrichment score"

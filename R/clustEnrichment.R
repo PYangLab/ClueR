@@ -35,10 +35,10 @@
 #'
 #' # testing enrichment of clustering results by partition the data into six clusters
 #' # using cmeans algorithm.
-#' clustObj <- cmeans(simuData, centers=6, iter.max=50, m=1.25)
+#' clustObj <- e1071::cmeans(simuData, centers=6, iter.max=50, m=1.25)
 #' clustEnrichment(clustObj, annotation=kinaseAnno, effectiveSize=c(5, 100), pvalueCutoff=0.05)
 #'
-clustEnrichment <- function(clustObj, annotation, effectiveSize, pvalueCutoff=0.05, universe) {
+clustEnrichment <- function(clustObj, annotation, effectiveSize, pvalueCutoff=0.05, universe=NULL) {
   
   numOfcluster <- nrow(clustObj$centers)
   enrich.list <- list()

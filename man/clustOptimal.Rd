@@ -4,7 +4,16 @@
 \alias{clustOptimal}
 \title{Generate optimal clustering}
 \usage{
-clustOptimal(clueObj, rep = 5, user.maxK = NULL, visualize = TRUE, ...)
+clustOptimal(
+  clueObj,
+  rep = 5,
+  user.maxK = NULL,
+  effectiveSize = NULL,
+  pvalueCutoff = 0.05,
+  visualize = TRUE,
+  universe = NULL,
+  mfrow = c(1, 1)
+)
 }
 \arguments{
 \item{clueObj}{the output from runClue.}
@@ -13,9 +22,16 @@ clustOptimal(clueObj, rep = 5, user.maxK = NULL, visualize = TRUE, ...)
 
 \item{user.maxK}{user defined optimal k value for generating optimal clustering. If not provided, the optimal k that is identified by clue will be used.}
 
+\item{effectiveSize}{the size of kinase-substrate groups to be considered for calculating enrichment. Groups that are too small
+or too large will be removed from calculating overall enrichment of the clustering.}
+
+\item{pvalueCutoff}{a pvalue cutoff for determining which kinase-substrate groups to be included in calculating overall enrichment of the clustering.}
+
 \item{visualize}{a boolean parameter indicating whether to visualize the clustering results.}
 
-\item{...}{pass additional parameter for controlling the plot if visualize is TRUE.}
+\item{universe}{the universe of genes/proteins/phosphosites etc. that the enrichment is calculated against. The default are the row names of the dataset.}
+
+\item{mfrow}{control the subplots in graphic window.}
 }
 \value{
 return a list containing optimal clustering object and enriched kinases or gene sets.
@@ -46,7 +62,7 @@ names(kinaseAnno) <- paste("KS", 1:20, sep="_")
 
 # run CLUE with a repeat of 2 times and a range from 2 to 7
 set.seed(1)
-clueObj <- runClue(Tc=simuData, annotation=kinaseAnno, rep=5, kRange=7)
+clueObj <- runClue(Tc=simuData, annotation=kinaseAnno, rep=5, kRange=2:7)
 
 # visualize the evaluation outcome
 xl <- "Number of clusters"
@@ -64,5 +80,6 @@ best$enrichList
 \donttest{
   best$clustObj
 }
+
 
 }

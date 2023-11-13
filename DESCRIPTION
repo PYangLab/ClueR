@@ -12,5 +12,9 @@ Description: CLUster Evaluation (CLUE) is a computational method for identifying
               See README on <https://github.com/PengyiYang/ClueR> for more details.
               P Yang et al. (2015) <doi:10.1371/journal.pcbi.1004403>.
 License: GPL-3
-Depends: R (>= 2.10.0), e1071, parallel
-RoxygenNote: 6.0.1
+Depends: R (>= 2.10.0)
+Imports:
+  e1071, 
+  parallel
+Encoding: UTF-8
+RoxygenNote: 7.2.3

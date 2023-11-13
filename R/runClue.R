@@ -111,18 +111,18 @@ runClue <- function(Tc, annotation, rep=5, kRange=2:10, clustAlg="cmeans", effec
   annotation.filtered <- annotation.intersect[lapply(annotation.intersect, length) > 0]
   
   # apply CLUE
-  repeat.list <- mclapply(1:rep, function(rp){
+  repeat.list <- parallel::mclapply(1:rep, function(rp){
     cat("repeat", rp, "\n");
     enrichment <- c()
     for (k in kRange) {
       clustered <- c()
       if (clustAlg == "cmeans") {
-        clustered <- cmeans(Tc, centers=k, iter.max=50, m=1.25)
+        clustered <- e1071::cmeans(Tc, centers=k, iter.max=50, m=1.25)
       } else if (clustAlg == "kmeans"){
-        clustered <- kmeans(Tc, centers=k, iter.max=50)
+        clustered <- stats::kmeans(Tc, centers=k, iter.max=50)
       } else {
         print("Unknown clustering algorithm specified. Using cmeans clustering instead")
-        clustered <- cmeans(Tc, centers=k, iter.max=50, m=1.25)
+        clustered <- e1071::cmeans(Tc, centers=k, iter.max=50, m=1.25)
       }
       
       # compute fisher's p-value for each cluster

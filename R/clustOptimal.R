@@ -9,7 +9,7 @@
 #' or too large will be removed from calculating overall enrichment of the clustering.
 #' @param pvalueCutoff a pvalue cutoff for determining which kinase-substrate groups to be included in calculating overall enrichment of the clustering.
 #' @param universe the universe of genes/proteins/phosphosites etc. that the enrichment is calculated against. The default are the row names of the dataset.
-#' @param ... pass additional parameter for controlling the plot if visualize is TRUE.
+#' @param mfrow control the subplots in graphic window.
 #' @return return a list containing optimal clustering object and enriched kinases or gene sets. 
 #'
 #' @export
@@ -56,9 +56,6 @@
 #' }
 #' 
 #' 
-#' best <- clustOptimal(cl, rep=3, mfrow=c(2, 3))
-#' 
-#' 
 clustOptimal <- function(clueObj, rep=5, user.maxK=NULL, effectiveSize=NULL, pvalueCutoff=0.05, visualize=TRUE, universe=NULL, mfrow = c(1, 1)) {
   
   bstPvalue <- 1
@@ -69,10 +66,10 @@ clustOptimal <- function(clueObj, rep=5, user.maxK=NULL, effectiveSize=NULL, pva
     if (clueObj$clustAlg == "cmeans") {
       if (is.null(user.maxK)) {
         # use clue determined max k value
-        cobj <- cmeans(clueObj$Tc, centers=clueObj$maxK, iter.max=50, m=1.25)
+        cobj <- e1071::cmeans(clueObj$Tc, centers=clueObj$maxK, iter.max=50, m=1.25)
       } else {
         # use user specific k value
-        cobj <- cmeans(clueObj$Tc, centers=user.maxK, iter.max=50, m=1.25)
+        cobj <- e1071::cmeans(clueObj$Tc, centers=user.maxK, iter.max=50, m=1.25)
       }
     } else {
       if (is.null(user.maxK)) {
@@ -88,7 +85,7 @@ clustOptimal <- function(clueObj, rep=5, user.maxK=NULL, effectiveSize=NULL, pva
         
       } else {
         # use user specific k value
-        cobj <- kmeans(clueObj$Tc, centers=user.maxK, iter.max=50)
+        cobj <- stats::kmeans(clueObj$Tc, centers=user.maxK, iter.max=50)
         # set the membership as the normalised distance to the mean of the cluster
         cobj$membership <- matrix(NA, nrow=nrow(clueObj$Tc), ncol=nrow(cobj$centers))
         

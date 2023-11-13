@@ -4,8 +4,15 @@
 \alias{fuzzPlot}
 \title{Visualize fuzzy clustering results}
 \usage{
-fuzzPlot(Tc, clustObj, mfrow = c(1, 1), cols, min.mem = 0,
-  new.window = FALSE, llwd = 3)
+fuzzPlot(
+  Tc,
+  clustObj,
+  mfrow = c(1, 1),
+  cols,
+  min.mem = 0,
+  new.window = FALSE,
+  llwd = 3
+)
 }
 \arguments{
 \item{Tc}{a numeric matrix to be clustered. The columns correspond to the time-course and the rows correspond to phosphorylation sites.}
@@ -29,7 +36,7 @@ Takes in a time-course matrix and its clustering results as a cmeans clustering 
 # load the human ES phosphoprotoemics data (Rigbolt et al. Sci Signal. 4(164):rs3, 2011)
 data(hES)
 # apply cmeans clustering to partition the data into 11 clusters
-clustObj <- cmeans(hES, centers=11, iter.max=50, m=1.25)
+clustObj <- e1071::cmeans(hES, centers=11, iter.max=50, m=1.25)
 # visualize clustering reuslts
 fuzzPlot(hES, clustObj, mfrow = c(3,4))
 
