@@ -1,7 +1,7 @@
 Package: ClueR
 Type: Package
 Title: Cluster Evaluation
-Version: 1.4
+Version: 1.4.1
 Date: 2018-09-29
 Author: Pengyi Yang
 Maintainer: Pengyi Yang <yangpy7@gmail.com>
