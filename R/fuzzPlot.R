@@ -10,6 +10,9 @@
 #' @param llwd line width. Default is 3.
 #' @export
 #' 
+#' @import grDevices
+#' @import graphics
+#' 
 #' @examples
 #' # load the human ES phosphoprotoemics data (Rigbolt et al. Sci Signal. 4(164):rs3, 2011)
 #' data(hES)
@@ -43,8 +46,8 @@ fuzzPlot <- function (Tc, clustObj, mfrow = c(1, 1), cols, min.mem = 0, new.wind
     tmpmem <- memship[clusterindex == j, j]
     if (((j - 1)%%(mfrow[1] * mfrow[2])) == 0) {
       if (new.window) 
-        dev.new()
-      par(mfrow = mfrow)
+        grDevices::dev.new()
+      graphics::par(mfrow = mfrow)
       if (sum(clusterindex == j) == 0) {
         ymin <- -1
         ymax <- +1
@@ -77,7 +80,7 @@ fuzzPlot <- function (Tc, clustObj, mfrow = c(1, 1), cols, min.mem = 0, new.wind
         if (sum(tmpcol) > 0) {
           tmpind <- which(tmpcol)
           for (k in 1:length(tmpind)) {
-            lines(tmp[tmpind[k], ], col = cols[jj], lwd=llwd)
+            graphics::lines(tmp[tmpind[k], ], col = cols[jj], lwd=llwd)
           }
         }
       }

@@ -71,7 +71,8 @@ names(kinaseAnno) <- paste("KS", 1:50, sep="_")
 
 ## run CLUE with a repeat of 3 times and a range from 2 to 8
 set.seed(1)
-cl <- runClue(Tc=simuData, annotation=kinaseAnno, rep=3, kRange=2:8, standardise = TRUE, universe = NULL)
+cl <- runClue(Tc=simuData, annotation=kinaseAnno, rep=3, kRange=2:8, 
+              standardise = TRUE, universe = NULL)
 
 ## visualize the evaluation outcome
 boxplot(cl$evlMat, col=rainbow(8), las=2, xlab="# cluster", ylab="Enrichment", main="CLUE")
@@ -96,7 +97,8 @@ data(PhosphoSite)
 
 ## run CLUE with a repeat of 5 times and a range from 2 to 15
 \donttest{set.seed(1)
-cl <- runClue(Tc=hES, annotation=PhosphoSite.human, rep=5, kRange=2:15, standardise = TRUE, universe = NULL)
+cl <- runClue(Tc=hES, annotation=PhosphoSite.human, rep=5, kRange=2:15, 
+              standardise = TRUE, universe = NULL)
 
 boxplot(cl$evlMat, col=rainbow(15), las=2, xlab="# cluster", ylab="Enrichment", main="CLUE")
 
@@ -121,7 +123,8 @@ adipocyte.selected <- adipocyte[adipocyte[,"DE"] == 1,]
 ## run CLUE with a repeat of 5 times and a range from 10 to 22
 \donttest{
 set.seed(3)
-cl <- runClue(Tc=adipocyte.selected, annotation=Pathways.KEGG, rep=3, kRange=10:20, standardise = TRUE, universe = NULL)
+cl <- runClue(Tc=adipocyte.selected, annotation=Pathways.KEGG, rep=3, kRange=10:20, 
+              standardise = TRUE, universe = NULL)
 
 xl <- "Number of clusters"
 yl <- "Enrichment score"

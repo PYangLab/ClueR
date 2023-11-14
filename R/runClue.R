@@ -13,6 +13,9 @@
 #' @param standardise whether to z-score standardise the input matrix.
 #' @param universe the universe of genes/proteins/phosphosites etc. that the enrichment is calculated against. The default are the row names of the dataset.
 #' @return a clue output that contains the input parameters used for evaluation and the evaluation results. Use ls(x) to see details of output. 'x' be the output here.
+#' 
+#' @import stats
+#' 
 #' @export
 #' @examples
 #' ## Example 1. Running CLUE with a simulated phosphoproteomics data
@@ -40,7 +43,8 @@
 #' 
 #' ## run CLUE with a repeat of 3 times and a range from 2 to 8
 #' set.seed(1)
-#' cl <- runClue(Tc=simuData, annotation=kinaseAnno, rep=3, kRange=2:8, standardise = TRUE, universe = NULL)
+#' cl <- runClue(Tc=simuData, annotation=kinaseAnno, rep=3, kRange=2:8, 
+#'               standardise = TRUE, universe = NULL)
 #' 
 #' ## visualize the evaluation outcome
 #' boxplot(cl$evlMat, col=rainbow(8), las=2, xlab="# cluster", ylab="Enrichment", main="CLUE")
@@ -65,7 +69,8 @@
 #' 
 #' ## run CLUE with a repeat of 5 times and a range from 2 to 15
 #' \donttest{set.seed(1)
-#' cl <- runClue(Tc=hES, annotation=PhosphoSite.human, rep=5, kRange=2:15, standardise = TRUE, universe = NULL)
+#' cl <- runClue(Tc=hES, annotation=PhosphoSite.human, rep=5, kRange=2:15, 
+#'               standardise = TRUE, universe = NULL)
 #' 
 #' boxplot(cl$evlMat, col=rainbow(15), las=2, xlab="# cluster", ylab="Enrichment", main="CLUE")
 #' 
@@ -90,7 +95,8 @@
 #' ## run CLUE with a repeat of 5 times and a range from 10 to 22
 #' \donttest{
 #' set.seed(3)
-#' cl <- runClue(Tc=adipocyte.selected, annotation=Pathways.KEGG, rep=3, kRange=10:20, standardise = TRUE, universe = NULL)
+#' cl <- runClue(Tc=adipocyte.selected, annotation=Pathways.KEGG, rep=3, kRange=10:20, 
+#'               standardise = TRUE, universe = NULL)
 #' 
 #' xl <- "Number of clusters"
 #' yl <- "Enrichment score"
@@ -101,7 +107,7 @@ runClue <- function(Tc, annotation, rep=5, kRange=2:10, clustAlg="cmeans", effec
   # standardize the matrix by row
   if(isTRUE(standardise)) {
     means <- apply(Tc, 1, mean)
-    stds <- apply(Tc, 1, sd)
+    stds <- apply(Tc, 1, stats::sd)
     tmp <- sweep(Tc, 1, means, FUN="-")
     Tc <- sweep(tmp, 1, stds, FUN="/")
   }

@@ -7,6 +7,9 @@
 #' @param sdd the standard deviation to be used to generate randomness for each temporal profile.
 #' @param numGroups number of templates to be used for generating data.
 #' @return a matrix containing simulated time-series dataset.
+#' 
+#' @import stats
+#' 
 #' @export
 #' @examples
 #' # simulate a time-series data with four distinctive profile groups and each group with 
@@ -19,38 +22,38 @@ temporalSimu <- function(seed=unclass(Sys.time()), groupSize, sdd, numGroups) {
 
    ## create 14 temporal profile templates
    # accute up response
-   group1 <- cbind(rnorm(groupSize, 0, sdd), rnorm(groupSize, 3, sdd), rnorm(groupSize, 4, sdd), rnorm(groupSize, 4, sdd), rnorm(groupSize, 4, sdd), rnorm(groupSize, 4, sdd), rnorm(groupSize, 4, sdd))
+   group1 <- cbind(stats::rnorm(groupSize, 0, sdd), stats::rnorm(groupSize, 3, sdd), stats::rnorm(groupSize, 4, sdd), stats::rnorm(groupSize, 4, sdd), stats::rnorm(groupSize, 4, sdd), stats::rnorm(groupSize, 4, sdd), stats::rnorm(groupSize, 4, sdd))
    # delayed up response
-   group2 <- cbind(rnorm(groupSize, 0, sdd), rnorm(groupSize, 0, sdd), rnorm(groupSize, 0, sdd), rnorm(groupSize, 0, sdd), rnorm(groupSize, 0, sdd), rnorm(groupSize, 3, sdd), rnorm(groupSize, 4, sdd))
+   group2 <- cbind(stats::rnorm(groupSize, 0, sdd), stats::rnorm(groupSize, 0, sdd), stats::rnorm(groupSize, 0, sdd), stats::rnorm(groupSize, 0, sdd), stats::rnorm(groupSize, 0, sdd), stats::rnorm(groupSize, 3, sdd), stats::rnorm(groupSize, 4, sdd))
 
    # accute down response
-   group3 <- cbind(rnorm(groupSize, 4, sdd), rnorm(groupSize, 3, sdd), rnorm(groupSize, 0, sdd), rnorm(groupSize, 0, sdd), rnorm(groupSize, 0, sdd), rnorm(groupSize, 0, sdd), rnorm(groupSize, 0, sdd))
+   group3 <- cbind(stats::rnorm(groupSize, 4, sdd), stats::rnorm(groupSize, 3, sdd), stats::rnorm(groupSize, 0, sdd), stats::rnorm(groupSize, 0, sdd), stats::rnorm(groupSize, 0, sdd), stats::rnorm(groupSize, 0, sdd), stats::rnorm(groupSize, 0, sdd))
    # delayed down response
-   group4 <- cbind(rnorm(groupSize, 4, sdd), rnorm(groupSize, 4, sdd), rnorm(groupSize, 4, sdd), rnorm(groupSize, 4, sdd), rnorm(groupSize, 4, sdd), rnorm(groupSize, 3, sdd), rnorm(groupSize, 0, sdd))
+   group4 <- cbind(stats::rnorm(groupSize, 4, sdd), stats::rnorm(groupSize, 4, sdd), stats::rnorm(groupSize, 4, sdd), stats::rnorm(groupSize, 4, sdd), stats::rnorm(groupSize, 4, sdd), stats::rnorm(groupSize, 3, sdd), stats::rnorm(groupSize, 0, sdd))
    
    # median up response
-   group5 <- cbind(rnorm(groupSize, 0, sdd), rnorm(groupSize, 0, sdd), rnorm(groupSize, 0, sdd), rnorm(groupSize, 3, sdd), rnorm(groupSize, 4, sdd), rnorm(groupSize, 4, sdd), rnorm(groupSize, 4, sdd))
+   group5 <- cbind(stats::rnorm(groupSize, 0, sdd), stats::rnorm(groupSize, 0, sdd), stats::rnorm(groupSize, 0, sdd), stats::rnorm(groupSize, 3, sdd), stats::rnorm(groupSize, 4, sdd), stats::rnorm(groupSize, 4, sdd), stats::rnorm(groupSize, 4, sdd))
    # median down response
-   group6 <- cbind(rnorm(groupSize, 4, sdd), rnorm(groupSize, 4, sdd), rnorm(groupSize, 4, sdd), rnorm(groupSize, 3, sdd), rnorm(groupSize, 0, sdd), rnorm(groupSize, 0, sdd), rnorm(groupSize, 0, sdd))
+   group6 <- cbind(stats::rnorm(groupSize, 4, sdd), stats::rnorm(groupSize, 4, sdd), stats::rnorm(groupSize, 4, sdd), stats::rnorm(groupSize, 3, sdd), stats::rnorm(groupSize, 0, sdd), stats::rnorm(groupSize, 0, sdd), stats::rnorm(groupSize, 0, sdd))
 
    # v shape up then down response
-   group7 <- cbind(rnorm(groupSize, 4, sdd), rnorm(groupSize, 3, sdd), rnorm(groupSize, 2, sdd), rnorm(groupSize, 1, sdd), rnorm(groupSize, 2, sdd), rnorm(groupSize, 3, sdd), rnorm(groupSize, 4, sdd))
+   group7 <- cbind(stats::rnorm(groupSize, 4, sdd), stats::rnorm(groupSize, 3, sdd), stats::rnorm(groupSize, 2, sdd), stats::rnorm(groupSize, 1, sdd), stats::rnorm(groupSize, 2, sdd), stats::rnorm(groupSize, 3, sdd), stats::rnorm(groupSize, 4, sdd))
    # v shape down then up response
-   group8 <- cbind(rnorm(groupSize, 0, sdd), rnorm(groupSize, 1, sdd), rnorm(groupSize, 2, sdd), rnorm(groupSize, 3, sdd), rnorm(groupSize, 2, sdd), rnorm(groupSize, 1, sdd), rnorm(groupSize, 0, sdd))
+   group8 <- cbind(stats::rnorm(groupSize, 0, sdd), stats::rnorm(groupSize, 1, sdd), stats::rnorm(groupSize, 2, sdd), stats::rnorm(groupSize, 3, sdd), stats::rnorm(groupSize, 2, sdd), stats::rnorm(groupSize, 1, sdd), stats::rnorm(groupSize, 0, sdd))
    
    # v shape up then down then flat response
-   group9 <- cbind(rnorm(groupSize, 0, sdd), rnorm(groupSize, 2, sdd), rnorm(groupSize, 4, sdd), rnorm(groupSize, 2, sdd), rnorm(groupSize, 0, sdd), rnorm(groupSize, 0, sdd), rnorm(groupSize, 0, sdd))
+   group9 <- cbind(stats::rnorm(groupSize, 0, sdd), stats::rnorm(groupSize, 2, sdd), stats::rnorm(groupSize, 4, sdd), stats::rnorm(groupSize, 2, sdd), stats::rnorm(groupSize, 0, sdd), stats::rnorm(groupSize, 0, sdd), stats::rnorm(groupSize, 0, sdd))
    # v shape down then up then flat response
-   group10 <- cbind(rnorm(groupSize, 4, sdd), rnorm(groupSize, 2, sdd), rnorm(groupSize, 0, sdd), rnorm(groupSize, 2, sdd), rnorm(groupSize, 4, sdd), rnorm(groupSize, 4, sdd), rnorm(groupSize, 4, sdd))
+   group10 <- cbind(stats::rnorm(groupSize, 4, sdd), stats::rnorm(groupSize, 2, sdd), stats::rnorm(groupSize, 0, sdd), stats::rnorm(groupSize, 2, sdd), stats::rnorm(groupSize, 4, sdd), stats::rnorm(groupSize, 4, sdd), stats::rnorm(groupSize, 4, sdd))
    
    # over shoot response
-   group11 <- cbind(rnorm(groupSize, 0, sdd), rnorm(groupSize, 0.2, sdd), rnorm(groupSize, 1, sdd), rnorm(groupSize, 5, sdd), rnorm(groupSize, 5, sdd), rnorm(groupSize, 5, sdd), rnorm(groupSize, 5, sdd))
+   group11 <- cbind(stats::rnorm(groupSize, 0, sdd), stats::rnorm(groupSize, 0.2, sdd), stats::rnorm(groupSize, 1, sdd), stats::rnorm(groupSize, 5, sdd), stats::rnorm(groupSize, 5, sdd), stats::rnorm(groupSize, 5, sdd), stats::rnorm(groupSize, 5, sdd))
    # under shoot reponse
-   group12 <- cbind(rnorm(groupSize, 5, sdd), rnorm(groupSize, 1, sdd), rnorm(groupSize, 0.2, sdd), rnorm(groupSize, 0, sdd), rnorm(groupSize, 0, sdd), rnorm(groupSize, 0, sdd), rnorm(groupSize, 0, sdd))
+   group12 <- cbind(stats::rnorm(groupSize, 5, sdd), stats::rnorm(groupSize, 1, sdd), stats::rnorm(groupSize, 0.2, sdd), stats::rnorm(groupSize, 0, sdd), stats::rnorm(groupSize, 0, sdd), stats::rnorm(groupSize, 0, sdd), stats::rnorm(groupSize, 0, sdd))
 
    # s shape responses
-   group13 <- cbind(rnorm(groupSize, 0, sdd), rnorm(groupSize, 1, sdd), rnorm(groupSize, 2, sdd), rnorm(groupSize, 1, sdd), rnorm(groupSize, 0, sdd), rnorm(groupSize, 1, sdd), rnorm(groupSize, 2, sdd))
-   group14 <- cbind(rnorm(groupSize, 2, sdd), rnorm(groupSize, 1, sdd), rnorm(groupSize, 0, sdd), rnorm(groupSize, 1, sdd), rnorm(groupSize, 2, sdd), rnorm(groupSize, 1, sdd), rnorm(groupSize, 0, sdd))
+   group13 <- cbind(stats::rnorm(groupSize, 0, sdd), stats::rnorm(groupSize, 1, sdd), stats::rnorm(groupSize, 2, sdd), stats::rnorm(groupSize, 1, sdd), stats::rnorm(groupSize, 0, sdd), stats::rnorm(groupSize, 1, sdd), stats::rnorm(groupSize, 2, sdd))
+   group14 <- cbind(stats::rnorm(groupSize, 2, sdd), stats::rnorm(groupSize, 1, sdd), stats::rnorm(groupSize, 0, sdd), stats::rnorm(groupSize, 1, sdd), stats::rnorm(groupSize, 2, sdd), stats::rnorm(groupSize, 1, sdd), stats::rnorm(groupSize, 0, sdd))
 
    groups <- list()
    groups[[1]] <- group1
@@ -80,7 +83,7 @@ temporalSimu <- function(seed=unclass(Sys.time()), groupSize, sdd, numGroups) {
 
    # standardize the simulated data
    tmp <- sweep(simulated.dat, 1, apply(simulated.dat, 1, mean), FUN="-")
-   simulated.stand <- sweep(tmp, 1, apply(simulated.dat, 1, sd), FUN="/")
+   simulated.stand <- sweep(tmp, 1, apply(simulated.dat, 1, stats::sd), FUN="/")
    
    rownames(simulated.stand) <- paste("p", 1:nrow(simulated.stand), sep="_")
    colnames(simulated.stand) <- paste("t", 1:ncol(simulated.stand), sep="_")

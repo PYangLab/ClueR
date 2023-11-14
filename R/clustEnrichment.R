@@ -37,7 +37,8 @@
 #' # using cmeans algorithm.
 #' clustObj <- e1071::cmeans(simuData, centers=6, iter.max=50, m=1.25)
 #' clustEnrichment(clustObj, annotation=kinaseAnno, effectiveSize=c(5, 100), pvalueCutoff=0.05)
-#'
+#' 
+#' @import stats
 clustEnrichment <- function(clustObj, annotation, effectiveSize, pvalueCutoff=0.05, universe=NULL) {
   
   numOfcluster <- nrow(clustObj$centers)
@@ -77,7 +78,7 @@ clustEnrichment <- function(clustObj, annotation, effectiveSize, pvalueCutoff=0.
     })
     
     # fisher for combining overall clustering
-    fisher.pvalue <- pchisq(-2*sum(log(cluster.pvalue)), 2*length(cluster.pvalue), lower.tail = FALSE)
+    fisher.pvalue <- stats::pchisq(-2*sum(log(cluster.pvalue)), 2*length(cluster.pvalue), lower.tail = FALSE)
     #cluster.pvalue.sort <- sort(cluster.pvalue)
     #if (length(cluster.pvalue.sort) > 5) {
     #  fisher.pvalue <- pchisq(-2*sum(log(cluster.pvalue.sort[1:5])), 2*5, lower.tail = FALSE)

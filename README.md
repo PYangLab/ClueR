@@ -10,18 +10,18 @@ CLUE was initially designed for analysing time-course phosphoproteomics dataset 
 Previously published phosphoproteomics dataset and gene expression dataset are included in the package to demonstrate how to use CLUE package.
 
 #### Reference
-Yang P, Zheng X, Jayaswal V, Hu G, Yang JYH, Jothi R (2015) Knowledge-Based Analysis for Detecting Key Signaling Events from Time-Series Phosphoproteomics Data. PLoS Comput Biol 11(8): e1004403. [fulltext](http://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1004403)
+Yang P, Zheng X, Jayaswal V, Hu G, Yang JYH, Jothi R (2015) Knowledge-Based Analysis for Detecting Key Signaling Events from Time-Series Phosphoproteomics Data. PLoS Comput Biol 11(8): e1004403. [fulltext](https://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1004403)
 
 #### Download and install
 The release version can be downloaded from CRAN [link](https://CRAN.R-project.org/package=ClueR);
 
-whereas the latest release of development version can be downloaded from [here](https://github.com/PengyiYang/ClueR/releases)
+whereas the latest release of development version can be downloaded from [here](https://github.com/PYangLab/ClueR/releases)
 
 1. Install the release version from CRAN with `install.packages("ClueR")`
 
 2. You can also install the latest development version from github with:
 ```r
-devtools::install_github("PengyiYang/ClueR")
+devtools::install_github("PYangLab/ClueR")
 ```
 Make sure that you have [Rtools](https://cran.r-project.org/bin/windows/Rtools/) install in your system for building the package from the source.
 
@@ -72,7 +72,7 @@ best$enrichList
 best$clustObj
 ```
 
-(2) This example shows the application of CLUE on a hES phosphoproteomics data set (Rigbolt et al. Sci Signal. 4(164):rs3, 2011) and uses kinase-substrate annotation compiled from [PhosphoSitePlus](http://www.phosphosite.org).
+(2) This example shows the application of CLUE on a hES phosphoproteomics data set (Rigbolt et al. Sci Signal. 4(164):rs3, 2011) and uses kinase-substrate annotation compiled from [PhosphoSitePlus](https://www.phosphosite.org).
 
 ``` r
 ## install the latest release of ClueR package

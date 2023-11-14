@@ -12,6 +12,8 @@
 #' @param mfrow control the subplots in graphic window.
 #' @return return a list containing optimal clustering object and enriched kinases or gene sets. 
 #'
+#' @import stats
+#'
 #' @export
 #' @examples
 #' # simulate a time-series data with 4 distinctive profile groups and each group with
@@ -74,12 +76,12 @@ clustOptimal <- function(clueObj, rep=5, user.maxK=NULL, effectiveSize=NULL, pva
     } else {
       if (is.null(user.maxK)) {
         # use clue determined max k value
-        cobj <- kmeans(clueObj$Tc, centers=clueObj$maxK, iter.max=50)
+        cobj <- stats::kmeans(clueObj$Tc, centers=clueObj$maxK, iter.max=50)
         # set the membership as the normalised distance to the mean of the cluster
         cobj$membership <- matrix(NA, nrow=nrow(clueObj$Tc), ncol=nrow(cobj$centers))
         
         for(i in 1:ncol(cobj$membership)) {
-          cobj$membership[,i] <- (as.numeric(cor(t(clueObj$Tc), cobj$centers[i,])) + 1)/2
+          cobj$membership[,i] <- (as.numeric(stats::cor(t(clueObj$Tc), cobj$centers[i,])) + 1)/2
         }
         rownames(cobj$membership) <- names(cobj$cluster)
         
